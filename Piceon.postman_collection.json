@@ -1,0 +1,662 @@
+{
+	"info": {
+		"_postman_id": "piceon-api-collection",
+		"name": "Piceon - Idle RPG API",
+		"description": "Complete API collection for Piceon game backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('token', response.data.token);",
+									"    pm.environment.set('userId', response.data.user.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('token', response.data.token);",
+									"    pm.environment.set('userId', response.data.user.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "profile"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/resources",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "resources"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Characters",
+			"item": [
+				{
+					"name": "Get All Character Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/characters/templates",
+							"host": ["{{base_url}}"],
+							"path": ["characters", "templates"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Character by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/characters/templates/1",
+							"host": ["{{base_url}}"],
+							"path": ["characters", "templates", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Characters by Rarity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/characters/templates/rarity/Legendary",
+							"host": ["{{base_url}}"],
+							"path": ["characters", "templates", "rarity", "Legendary"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Characters by Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/characters/templates/type/Warrior",
+							"host": ["{{base_url}}"],
+							"path": ["characters", "templates", "type", "Warrior"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Character Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/characters/stats",
+							"host": ["{{base_url}}"],
+							"path": ["characters", "stats"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter by Type and Rarity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/characters/templates?type=Mage&rarity=Epic",
+							"host": ["{{base_url}}"],
+							"path": ["characters", "templates"],
+							"query": [
+								{
+									"key": "type",
+									"value": "Mage"
+								},
+								{
+									"key": "rarity",
+									"value": "Epic"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gacha",
+			"item": [
+				{
+					"name": "Get Active Banners",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gacha/banners",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "banners"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Banner by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/gacha/banners/1",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "banners", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Single Pull - Normal Banner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bannerId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/gacha/pull",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "pull"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Single Pull - Premium Banner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bannerId\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/gacha/pull",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "pull"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10x Pull - Premium Banner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bannerId\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/gacha/pull-10",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "pull-10"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Gacha History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/gacha/history?page=1&limit=20",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "history"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Gacha Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/gacha/stats",
+							"host": ["{{base_url}}"],
+							"path": ["gacha", "stats"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Get Inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory",
+							"host": ["{{base_url}}"],
+							"path": ["inventory"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inventory with Filters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory?rarity=Legendary&sort=level&order=DESC",
+							"host": ["{{base_url}}"],
+							"path": ["inventory"],
+							"query": [
+								{
+									"key": "rarity",
+									"value": "Legendary"
+								},
+								{
+									"key": "sort",
+									"value": "level"
+								},
+								{
+									"key": "order",
+									"value": "DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Character by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory/1",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lock Character",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"locked\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/inventory/1/lock",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "1", "lock"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlock Character",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"locked\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/inventory/1/lock",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "1", "lock"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to Favorites",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"favorite\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/inventory/1/favorite",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "1", "favorite"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upgrade Character",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory/1/upgrade",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "1", "upgrade"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sell Character",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory/1",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inventory Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory/stats",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "stats"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/inventory/filter?type=Warrior&rarity=Epic&favorite=true",
+							"host": ["{{base_url}}"],
+							"path": ["inventory", "filter"],
+							"query": [
+								{
+									"key": "type",
+									"value": "Warrior"
+								},
+								{
+									"key": "rarity",
+									"value": "Epic"
+								},
+								{
+									"key": "favorite",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/health",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["health"]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
