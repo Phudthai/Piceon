@@ -238,3 +238,33 @@ export const TYPE_COLORS: Record<CharacterType, string> = {
   Tank: 'text-gray-700',
   Assassin: 'text-purple-600'
 };
+
+// ============================================
+// Daily Reward Types
+// ============================================
+
+export interface DailyRewardConfig {
+  gold: number;
+  gems: number;
+}
+
+export interface DailyRewardStatus {
+  canClaim: boolean;
+  currentDay: number;
+  nextReward: DailyRewardConfig;
+  lastClaimedAt: string | null;
+  totalClaims: number;
+  totalGoldEarned: number;
+  totalGemsEarned: number;
+  allRewards: Record<number, DailyRewardConfig>;
+  claimedDays: number[];
+}
+
+export interface DailyRewardClaimResult {
+  success: boolean;
+  day: number;
+  reward: DailyRewardConfig;
+  nextDay: number;
+  user: User;
+}
+

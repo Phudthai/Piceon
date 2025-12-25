@@ -40,10 +40,17 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       // Handle 401 Unauthorized - Clear token and redirect to login
+      // Skip redirect for profile verification to avoid infinite loop
       if (error.response.status === 401) {
+        const wasAuthenticated = !!localStorage.getItem('token');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/login';
+        
+        // Only redirect if user was previously authenticated
+        // and we're not already on the login page
+        if (wasAuthenticated && !window.location.pathname.includes('/login')) {
+          window.location.href = '/login';
+        }
       }
 
       // Extract error message from response

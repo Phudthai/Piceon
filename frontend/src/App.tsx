@@ -12,6 +12,7 @@ import TeamPage from './pages/TeamPage';
 import BattlePage from './pages/BattlePage';
 import EquipmentPage from './pages/Equipment';
 import ItemsPage from './pages/Items';
+import DailyRewardsPage from './pages/DailyRewardsPage';
 
 // Protected Route Component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -107,6 +108,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ItemsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/daily-rewards"
+          element={
+            <ProtectedRoute>
+              <DailyRewardsPage />
             </ProtectedRoute>
           }
         />

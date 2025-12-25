@@ -161,17 +161,20 @@ export default function LobbyPage() {
             </div>
           </Link>
 
-          {/* Coming Soon - Daily Rewards */}
-          <div className="bg-gradient-to-br from-yellow-600 to-amber-600 rounded-lg p-8 opacity-50 cursor-not-allowed shadow-2xl">
+          {/* Daily Rewards */}
+          <Link
+            to="/daily-rewards"
+            className="bg-gradient-to-br from-yellow-600 to-amber-600 rounded-lg p-8 hover:scale-105 transition transform shadow-2xl"
+          >
             <div className="text-center">
               <div className="text-6xl mb-4">🎁</div>
               <h2 className="text-2xl font-bold text-white mb-2">Daily Rewards</h2>
-              <p className="text-yellow-100">Coming Soon</p>
+              <p className="text-yellow-100">Claim your daily bonus</p>
               <div className="mt-4 text-sm text-yellow-200">
-                Login bonuses
+                Login bonuses • Streak rewards
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* Coming Soon - Profile */}
           <div className="bg-gradient-to-br from-gray-600 to-slate-600 rounded-lg p-8 opacity-50 cursor-not-allowed shadow-2xl">

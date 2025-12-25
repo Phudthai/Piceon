@@ -52,6 +52,12 @@ export default function TeamPage() {
   };
 
   const handleCharacterClick = (char: Character) => {
+    // Check if character is already in a slot
+    const isAlreadySelected = Object.values(teamSlots).includes(char.id);
+    if (isAlreadySelected) {
+      return; // Do nothing if already selected
+    }
+
     const emptySlot = Object.keys(teamSlots).find(key => teamSlots[key] === null);
     if (emptySlot) {
       setTeamSlots({ ...teamSlots, [emptySlot]: char.id });
@@ -244,22 +250,35 @@ export default function TeamPage() {
           </div>
 
           <div className="grid grid-cols-5 gap-4 max-h-96 overflow-y-auto">
-            {filteredCharacters.map(char => (
-              <div
-                key={char.id}
-                onClick={() => handleCharacterClick(char)}
-                className={`border-2 rounded-lg p-3 cursor-pointer hover:scale-105 transition ${getRarityColor(char.rarity)}`}
-              >
-                <div className="text-center">
-                  <div className="text-3xl mb-1">⚔️</div>
-                  <div className="text-white text-xs font-bold truncate">{char.name}</div>
-                  <div className="text-xs">Lv.{char.level}</div>
-                  <div className="text-xs opacity-70">
-                    <div>⚔️{char.current_atk}</div>
+            {filteredCharacters.map(char => {
+              const isSelected = Object.values(teamSlots).includes(char.id);
+              
+              return (
+                <div
+                  key={char.id}
+                  onClick={() => handleCharacterClick(char)}
+                  className={`border-2 rounded-lg p-3 transition relative ${
+                    isSelected 
+                      ? 'border-gray-600 bg-gray-800/50 opacity-50 cursor-not-allowed' 
+                      : `cursor-pointer hover:scale-105 ${getRarityColor(char.rarity)}`
+                  }`}
+                >
+                  {isSelected && (
+                    <div className="absolute top-1 right-1 bg-green-500 text-white text-[10px] px-1 rounded">
+                      Selected
+                    </div>
+                  )}
+                  <div className="text-center">
+                    <div className="text-3xl mb-1">⚔️</div>
+                    <div className="text-white text-xs font-bold truncate">{char.name}</div>
+                    <div className="text-xs">Lv.{char.level}</div>
+                    <div className="text-xs opacity-70">
+                      <div>⚔️{char.current_atk}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

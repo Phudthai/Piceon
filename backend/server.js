@@ -58,6 +58,7 @@ app.use('/api/teams', require('./routes/teams'));
 app.use('/api/battles', require('./routes/battles'));
 app.use('/api/items', require('./routes/items'));
 app.use('/api/equipment', require('./routes/equipment'));
+app.use('/api/daily-rewards', require('./routes/dailyRewards'));
 
 // 404 handler
 app.use((req, res) => {

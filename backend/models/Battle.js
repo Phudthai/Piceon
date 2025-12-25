@@ -479,13 +479,17 @@ class Battle extends BaseModel {
     }
 
     // Apply skill effect
+    // For AOE skills, calculate damage once and apply to all
+    let aoeDamage = null;
+    if (skill.category === 'aoe_damage' || skill.category === 'multi_target') {
+      aoeDamage = Math.floor(skill.power * (attacker.atk / 100));
+    }
+
     for (const target of targets) {
       switch (skill.category) {
         case 'single_damage':
-        case 'aoe_damage':
-        case 'multi_target':
-          const dmg = Math.floor(skill.power * (attacker.atk / 100));
-          damage.push({ targetId: target.uniqueId, amount: dmg });
+          const singleDmg = Math.floor(skill.power * (attacker.atk / 100));
+          damage.push({ targetId: target.uniqueId, amount: singleDmg });
           logs.push({
             turn: turn,
             type: 'skill_damage',
@@ -494,8 +498,25 @@ class Battle extends BaseModel {
             target: target.name,
             targetId: target.uniqueId,
             skill: skill.name,
-            damage: dmg,
-            remaining_hp: Math.max(0, target.hp - dmg)
+            damage: singleDmg,
+            remaining_hp: Math.max(0, target.hp - singleDmg)
+          });
+          break;
+
+        case 'aoe_damage':
+        case 'multi_target':
+          // Use pre-calculated AOE damage for all targets
+          damage.push({ targetId: target.uniqueId, amount: aoeDamage });
+          logs.push({
+            turn: turn,
+            type: 'skill_damage',
+            attacker: attacker.name,
+            attackerId: attacker.uniqueId,
+            target: target.name,
+            targetId: target.uniqueId,
+            skill: skill.name,
+            damage: aoeDamage,
+            remaining_hp: Math.max(0, target.hp - aoeDamage)
           });
           break;
 
