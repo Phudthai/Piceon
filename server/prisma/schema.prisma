@@ -1,0 +1,370 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth ────────────────────────────────────────────
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  username     String      @unique
+  passwordHash String      @map("password_hash")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  characters   Character[]
+
+  @@map("users")
+}
+
+// ─── Character ───────────────────────────────────────
+
+model Character {
+  id          String         @id @default(uuid())
+  userId      String         @map("user_id")
+  name        String         @unique
+  class       CharacterClass
+  baseLevel   Int            @default(1) @map("base_level")
+  jobLevel    Int            @default(1) @map("job_level")
+  baseExp     Int            @default(0) @map("base_exp")
+  jobExp      Int            @default(0) @map("job_exp")
+  str         Int            @default(1)
+  agi         Int            @default(1)
+  vit         Int            @default(1)
+  int         Int            @default(1)
+  dex         Int            @default(1)
+  luk         Int            @default(1)
+  hp          Int            @default(40)
+  maxHp       Int            @default(40) @map("max_hp")
+  sp          Int            @default(10)
+  maxSp       Int            @default(10) @map("max_sp")
+  statPoints  Int            @default(10) @map("stat_points")
+  skillPoints Int            @default(0) @map("skill_points")
+  zeny        Int            @default(500)
+  mapName     String         @default("prontera") @map("map_name")
+  posX        Float          @default(150) @map("pos_x")
+  posY        Float          @default(150) @map("pos_y")
+  // Saved recall point (Acolyte Warp Portal) — null until first saved
+  savedMapName String?       @map("saved_map_name")
+  savedPosX    Float?        @map("saved_pos_x")
+  savedPosY    Float?        @map("saved_pos_y")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inventory       Inventory[]
+  characterSkills CharacterSkill[]
+  guildMember     GuildMember?
+  characterQuests CharacterQuest[]
+
+  @@index([userId])
+  @@map("characters")
+}
+
+enum CharacterClass {
+  SWORDSMAN
+  MAGE
+  ARCHER
+  THIEF
+  ACOLYTE
+  MERCHANT
+  KNIGHT
+  WIZARD
+  HUNTER
+  ASSASSIN
+  PRIEST
+  BLACKSMITH
+}
+
+// ─── Items & Inventory ──────────────────────────────
+
+model Item {
+  id            Int       @id @default(autoincrement())
+  name          String    @unique
+  type          ItemType
+  subtype       String?
+  description   String?
+  atk           Int       @default(0)
+  def           Int       @default(0)
+  matk          Int       @default(0)
+  mdef          Int       @default(0)
+  cardSlots     Int       @default(0) @map("card_slots")
+  runeSlots     Int       @default(0) @map("rune_slots")
+  weight        Int       @default(0)
+  price         Int       @default(0)
+  sellPrice     Int       @default(0) @map("sell_price")
+  levelReq      Int       @default(1) @map("level_req")
+  equipSlot     String?   @map("equip_slot")
+  // Weapon attack range in tiles (Chebyshev distance); null = melee range 1
+  range         Int?
+  // CARD items only: flat stat/atk/def bonus granted when socketed, e.g. {"str":3}
+  cardStatBonus Json?     @map("card_stat_bonus")
+  // RUNE items only: which skill gets the damage bonus (null = all skills)
+  runeSkillId   Int?      @map("rune_skill_id")
+  // RUNE items only: skill damage bonus percent when socketed
+  runePercent   Int?      @map("rune_percent")
+
+  inventory Inventory[]
+  dropTable MonsterDrop[]
+  sockets   InventorySocket[]
+
+  @@map("items")
+}
+
+enum ItemType {
+  WEAPON
+  ARMOR
+  CARD
+  RUNE
+  CONSUMABLE
+  QUEST_ITEM
+  ETC
+}
+
+model Inventory {
+  id          String  @id @default(uuid())
+  characterId String  @map("character_id")
+  itemId      Int     @map("item_id")
+  quantity    Int     @default(1)
+  slot        Int?
+  equipped    Boolean @default(false)
+  refineLevel Int     @default(0) @map("refine_level")
+
+  character Character         @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  item      Item              @relation(fields: [itemId], references: [id])
+  sockets   InventorySocket[]
+
+  @@unique([characterId, itemId, slot])
+  @@index([characterId])
+  @@map("inventory")
+}
+
+model InventorySocket {
+  id          String     @id @default(uuid())
+  inventoryId String     @map("inventory_id")
+  socketType  SocketType @map("socket_type")
+  socketIndex Int        @map("socket_index")
+  cardItemId  Int        @map("card_item_id")
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  cardItem  Item      @relation(fields: [cardItemId], references: [id])
+
+  @@unique([inventoryId, socketType, socketIndex])
+  @@map("inventory_sockets")
+}
+
+enum SocketType {
+  CARD
+  RUNE
+}
+
+// ─── Skills ─────────────────────────────────────────
+
+model Skill {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique
+  type          SkillType
+  maxLevel      Int             @default(10) @map("max_level")
+  targetType    String          @default("single") @map("target_type")
+  damageType    String?         @map("damage_type") // "melee" | "ranged" | "magic"; null = inherit from weapon
+  damageFormula String?         @map("damage_formula")
+  spCost        Int             @default(0) @map("sp_cost")
+  cooldown      Float           @default(0)
+  castTime      Float           @default(0) @map("cast_time")
+  range         Int             @default(1)
+  classRequired CharacterClass? @map("class_required")
+  description   String?
+
+  characterSkills CharacterSkill[]
+
+  @@map("skills")
+}
+
+enum SkillType {
+  ACTIVE
+  PASSIVE
+  BUFF
+  DEBUFF
+  HEAL
+}
+
+model CharacterSkill {
+  id          String @id @default(uuid())
+  characterId String @map("character_id")
+  skillId     Int    @map("skill_id")
+  level       Int    @default(1)
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  skill     Skill     @relation(fields: [skillId], references: [id])
+
+  @@unique([characterId, skillId])
+  @@map("character_skills")
+}
+
+// ─── Guilds ─────────────────────────────────────────
+
+model Guild {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  leaderId  String   @map("leader_id")
+  emblem    String?
+  castleId  String?  @map("castle_id")
+  level     Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  members GuildMember[]
+
+  @@map("guilds")
+}
+
+model GuildMember {
+  id          String    @id @default(uuid())
+  characterId String    @unique @map("character_id")
+  guildId     String    @map("guild_id")
+  rank        GuildRank @default(MEMBER)
+  joinedAt    DateTime  @default(now()) @map("joined_at")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  guild     Guild     @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@map("guild_members")
+}
+
+enum GuildRank {
+  LEADER
+  OFFICER
+  MEMBER
+}
+
+// ─── Maps & Monsters ────────────────────────────────
+
+model MapDefinition {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  displayName String @map("display_name")
+  width       Int
+  height      Int
+  dataFile    String @map("data_file")
+
+  spawns     MonsterSpawn[]
+  warpPoints WarpPoint[]
+
+  @@map("maps")
+}
+
+model MonsterDefinition {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  displayName String    @map("display_name")
+  level       Int       @default(1)
+  hp          Int       @default(100)
+  sp          Int       @default(0)
+  atk         Int       @default(10)
+  def         Int       @default(0)
+  matk        Int       @default(0)
+  mdef        Int       @default(0)
+  moveSpeed   Float     @default(1.0) @map("move_speed")
+  attackRange Int       @default(1) @map("attack_range")
+  aiType      MonsterAI @default(PASSIVE) @map("ai_type")
+  baseExp     Int       @default(10) @map("base_exp")
+  jobExp      Int       @default(5) @map("job_exp")
+  respawnTime Int       @default(5) @map("respawn_time")
+  zenyMin     Int       @default(0) @map("zeny_min")
+  zenyMax     Int       @default(0) @map("zeny_max")
+
+  drops  MonsterDrop[]
+  spawns MonsterSpawn[]
+
+  @@map("monster_definitions")
+}
+
+enum MonsterAI {
+  PASSIVE
+  AGGRESSIVE
+  ASSIST
+  BOSS
+}
+
+model MonsterDrop {
+  id        Int @id @default(autoincrement())
+  monsterId Int @map("monster_id")
+  itemId    Int @map("item_id")
+  rate      Int @default(100) // in 0.01% units (10000 = 100%)
+
+  monster MonsterDefinition @relation(fields: [monsterId], references: [id])
+  item    Item              @relation(fields: [itemId], references: [id])
+
+  @@unique([monsterId, itemId])
+  @@map("monster_drops")
+}
+
+model MonsterSpawn {
+  id        Int @id @default(autoincrement())
+  mapId     Int @map("map_id")
+  monsterId Int @map("monster_id")
+  maxCount  Int @default(5) @map("max_count")
+  areaX1    Int @default(0) @map("area_x1")
+  areaY1    Int @default(0) @map("area_y1")
+  areaX2    Int @default(100) @map("area_x2")
+  areaY2    Int @default(100) @map("area_y2")
+
+  map     MapDefinition     @relation(fields: [mapId], references: [id])
+  monster MonsterDefinition @relation(fields: [monsterId], references: [id])
+
+  @@map("monster_spawns")
+}
+
+model WarpPoint {
+  id    Int    @id @default(autoincrement())
+  mapId Int    @map("map_id")
+  fromX Int    @map("from_x")
+  fromY Int    @map("from_y")
+  toMap String @map("to_map")
+  toX   Int    @map("to_x")
+  toY   Int    @map("to_y")
+
+  map MapDefinition @relation(fields: [mapId], references: [id])
+
+  @@map("warp_points")
+}
+
+// ─── Quests ─────────────────────────────────────────
+
+model Quest {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+  levelReq    Int     @default(1) @map("level_req")
+  objectives  Json
+  rewards     Json
+
+  characterQuests CharacterQuest[]
+
+  @@map("quests")
+}
+
+model CharacterQuest {
+  id          String      @id @default(uuid())
+  characterId String      @map("character_id")
+  questId     Int         @map("quest_id")
+  status      QuestStatus @default(IN_PROGRESS)
+  progress    Json        @default("{}")
+  startedAt   DateTime    @default(now()) @map("started_at")
+  completedAt DateTime?   @map("completed_at")
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  quest     Quest     @relation(fields: [questId], references: [id])
+
+  @@unique([characterId, questId])
+  @@map("character_quests")
+}
+
+enum QuestStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}

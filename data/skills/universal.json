@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "name": "Basic Skill",
+    "type": "PASSIVE",
+    "maxLevel": 9,
+    "targetType": "self",
+    "spCost": 0,
+    "cooldown": 0,
+    "castTime": 0,
+    "range": 0,
+    "classRequired": null,
+    "description": "Basic adventurer skills. Higher levels unlock trade, party, and other features."
+  },
+  {
+    "id": 2,
+    "name": "First Aid",
+    "type": "HEAL",
+    "maxLevel": 1,
+    "targetType": "self",
+    "spCost": 3,
+    "cooldown": 1,
+    "castTime": 0,
+    "range": 0,
+    "classRequired": null,
+    "description": "Recover a small amount of HP."
+  },
+  {
+    "id": 3,
+    "name": "Trick Dead",
+    "type": "ACTIVE",
+    "maxLevel": 1,
+    "targetType": "self",
+    "spCost": 5,
+    "cooldown": 0,
+    "castTime": 0,
+    "range": 0,
+    "classRequired": null,
+    "description": "Play dead to avoid monster aggro. Cannot move while active."
+  }
+]

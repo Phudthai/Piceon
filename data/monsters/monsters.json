@@ -1,0 +1,386 @@
+[
+  {
+    "id": 1,
+    "name": "poring",
+    "displayName": "Poring",
+    "level": 1,
+    "hp": 50,
+    "sp": 0,
+    "atk": 7,
+    "def": 0,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 0.8,
+    "attackRange": 1,
+    "aiType": "PASSIVE",
+    "baseExp": 2,
+    "jobExp": 1,
+    "respawnTime": 5,
+    "zenyMin": 2,
+    "zenyMax": 8,
+    "drops": [
+      {
+        "itemId": 1,
+        "rate": 7000
+      },
+      {
+        "itemId": 2,
+        "rate": 1500
+      },
+      {
+        "itemId": 10,
+        "rate": 100
+      },
+      {
+        "itemId": 22,
+        "rate": 500
+      },
+      {
+        "itemId": 300,
+        "rate": 50
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "fabre",
+    "displayName": "Fabre",
+    "level": 2,
+    "hp": 63,
+    "sp": 0,
+    "atk": 12,
+    "def": 2,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 0.6,
+    "attackRange": 1,
+    "aiType": "PASSIVE",
+    "baseExp": 3,
+    "jobExp": 2,
+    "respawnTime": 5,
+    "zenyMin": 3,
+    "zenyMax": 10,
+    "drops": [
+      {
+        "itemId": 3,
+        "rate": 8000
+      },
+      {
+        "itemId": 4,
+        "rate": 500
+      },
+      {
+        "itemId": 11,
+        "rate": 50
+      },
+      {
+        "itemId": 301,
+        "rate": 50
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "lunatic",
+    "displayName": "Lunatic",
+    "level": 3,
+    "hp": 60,
+    "sp": 0,
+    "atk": 15,
+    "def": 3,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 1.0,
+    "attackRange": 1,
+    "aiType": "PASSIVE",
+    "baseExp": 4,
+    "jobExp": 3,
+    "respawnTime": 5,
+    "zenyMin": 4,
+    "zenyMax": 12,
+    "drops": [
+      {
+        "itemId": 5,
+        "rate": 7000
+      },
+      {
+        "itemId": 6,
+        "rate": 3000
+      },
+      {
+        "itemId": 12,
+        "rate": 80
+      },
+      {
+        "itemId": 22,
+        "rate": 500
+      },
+      {
+        "itemId": 302,
+        "rate": 50
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "willow",
+    "displayName": "Willow",
+    "level": 4,
+    "hp": 80,
+    "sp": 0,
+    "atk": 18,
+    "def": 5,
+    "matk": 5,
+    "mdef": 10,
+    "moveSpeed": 0.5,
+    "attackRange": 1,
+    "aiType": "PASSIVE",
+    "baseExp": 5,
+    "jobExp": 4,
+    "respawnTime": 7,
+    "zenyMin": 5,
+    "zenyMax": 15,
+    "drops": [
+      {
+        "itemId": 7,
+        "rate": 9000
+      },
+      {
+        "itemId": 8,
+        "rate": 500
+      },
+      {
+        "itemId": 303,
+        "rate": 50
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "wolf",
+    "displayName": "Wolf",
+    "level": 25,
+    "hp": 1000,
+    "sp": 0,
+    "atk": 80,
+    "def": 20,
+    "matk": 0,
+    "mdef": 5,
+    "moveSpeed": 1.5,
+    "attackRange": 1,
+    "aiType": "AGGRESSIVE",
+    "baseExp": 100,
+    "jobExp": 70,
+    "respawnTime": 10,
+    "zenyMin": 80,
+    "zenyMax": 200,
+    "drops": [
+      {
+        "itemId": 9,
+        "rate": 5000
+      },
+      {
+        "itemId": 13,
+        "rate": 50
+      },
+      {
+        "itemId": 304,
+        "rate": 50
+      },
+      {
+        "itemId": 23,
+        "rate": 50
+      },
+      {
+        "itemId": 401,
+        "rate": 30
+      },
+      {
+        "itemId": 402,
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "chonchon",
+    "displayName": "Chonchon",
+    "level": 8,
+    "hp": 130,
+    "sp": 0,
+    "atk": 25,
+    "def": 3,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 1.2,
+    "attackRange": 1,
+    "aiType": "AGGRESSIVE",
+    "baseExp": 12,
+    "jobExp": 8,
+    "respawnTime": 6,
+    "zenyMin": 15,
+    "zenyMax": 35,
+    "drops": [
+      {
+        "itemId": 14,
+        "rate": 6000
+      },
+      {
+        "itemId": 20,
+        "rate": 300
+      },
+      {
+        "itemId": 22,
+        "rate": 500
+      },
+      {
+        "itemId": 305,
+        "rate": 60
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "pupa",
+    "displayName": "Pupa",
+    "level": 6,
+    "hp": 400,
+    "sp": 0,
+    "atk": 1,
+    "def": 15,
+    "matk": 0,
+    "mdef": 15,
+    "moveSpeed": 0.3,
+    "attackRange": 1,
+    "aiType": "PASSIVE",
+    "baseExp": 15,
+    "jobExp": 10,
+    "respawnTime": 8,
+    "zenyMin": 10,
+    "zenyMax": 25,
+    "drops": [
+      {
+        "itemId": 15,
+        "rate": 8000
+      },
+      {
+        "itemId": 306,
+        "rate": 60
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "rocker",
+    "displayName": "Rocker",
+    "level": 10,
+    "hp": 180,
+    "sp": 0,
+    "atk": 35,
+    "def": 5,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 1.0,
+    "attackRange": 1,
+    "aiType": "ASSIST",
+    "baseExp": 18,
+    "jobExp": 12,
+    "respawnTime": 6,
+    "zenyMin": 20,
+    "zenyMax": 45,
+    "drops": [
+      {
+        "itemId": 16,
+        "rate": 5000
+      },
+      {
+        "itemId": 105,
+        "rate": 30
+      },
+      {
+        "itemId": 307,
+        "rate": 60
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "picky",
+    "displayName": "Picky",
+    "level": 9,
+    "hp": 150,
+    "sp": 0,
+    "atk": 28,
+    "def": 4,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 1.1,
+    "attackRange": 1,
+    "aiType": "ASSIST",
+    "baseExp": 14,
+    "jobExp": 9,
+    "respawnTime": 5,
+    "zenyMin": 18,
+    "zenyMax": 40,
+    "drops": [
+      {
+        "itemId": 17,
+        "rate": 6000
+      },
+      {
+        "itemId": 20,
+        "rate": 200
+      },
+      {
+        "itemId": 22,
+        "rate": 400
+      },
+      {
+        "itemId": 308,
+        "rate": 60
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "condor",
+    "displayName": "Condor",
+    "level": 12,
+    "hp": 220,
+    "sp": 0,
+    "atk": 42,
+    "def": 6,
+    "matk": 0,
+    "mdef": 0,
+    "moveSpeed": 1.3,
+    "attackRange": 1,
+    "aiType": "AGGRESSIVE",
+    "baseExp": 22,
+    "jobExp": 15,
+    "respawnTime": 8,
+    "zenyMin": 25,
+    "zenyMax": 55,
+    "drops": [
+      {
+        "itemId": 18,
+        "rate": 5000
+      },
+      {
+        "itemId": 205,
+        "rate": 25
+      },
+      {
+        "itemId": 23,
+        "rate": 50
+      },
+      {
+        "itemId": 309,
+        "rate": 50
+      },
+      {
+        "itemId": 400,
+        "rate": 30
+      }
+    ]
+  }
+]

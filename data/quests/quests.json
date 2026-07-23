@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Poring Culling",
+    "description": "The Porings around Prontera are multiplying too fast. Cull 5 of them to keep the fields safe.",
+    "levelReq": 1,
+    "npcId": "npc_quest_sergeant",
+    "objectives": [
+      { "type": "kill", "monsterId": 1, "monsterName": "Poring", "count": 5 }
+    ],
+    "rewards": {
+      "baseExp": 50,
+      "jobExp": 30,
+      "zeny": 500,
+      "items": [{ "itemId": 13, "quantity": 5 }]
+    }
+  },
+  {
+    "id": 2,
+    "name": "Field Pest Control",
+    "description": "Willows are damaging the crops east of the city. Take down 5 Willows in the Prontera fields.",
+    "levelReq": 3,
+    "npcId": "npc_quest_sergeant",
+    "objectives": [
+      { "type": "kill", "monsterId": 4, "monsterName": "Willow", "count": 5 }
+    ],
+    "rewards": {
+      "baseExp": 150,
+      "jobExp": 80,
+      "zeny": 1000,
+      "items": [{ "itemId": 13, "quantity": 5 }]
+    }
+  },
+  {
+    "id": 3,
+    "name": "Wolf Hunt",
+    "description": "A pack of wolves has settled in Prontera Field 02 and threatens travelers. Hunt 3 Wolves.",
+    "levelReq": 10,
+    "npcId": "npc_quest_sergeant",
+    "objectives": [
+      { "type": "kill", "monsterId": 5, "monsterName": "Wolf", "count": 3 }
+    ],
+    "rewards": {
+      "baseExp": 400,
+      "jobExp": 200,
+      "zeny": 3000,
+      "items": [{ "itemId": 13, "quantity": 10 }]
+    }
+  }
+]

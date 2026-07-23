@@ -1,0 +1,14 @@
+{
+  "name": "ro-game",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "scripts": {
+    "dev": "pnpm --parallel --filter @ro-game/client --filter @ro-game/server run dev",
+    "dev:client": "pnpm --filter @ro-game/client run dev",
+    "dev:server": "pnpm --filter @ro-game/server run dev",
+    "build": "pnpm --filter @ro-game/shared run build && pnpm --parallel --filter @ro-game/client --filter @ro-game/server run build",
+    "db:migrate": "pnpm --filter @ro-game/server exec prisma migrate dev",
+    "db:generate": "pnpm --filter @ro-game/server exec prisma generate",
+    "db:studio": "pnpm --filter @ro-game/server exec prisma studio"
+  }
+}
